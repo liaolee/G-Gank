@@ -78,7 +78,7 @@ public class ContentFragment extends BaseFragment {
         List<Fragment> fragments = new ArrayList<>();
         ContentAllFragment allFragment = new ContentAllFragment();
         fragments.add(allFragment);
-        ContentAndroidFragment androidFragment = new ContentAndroidFragment();
+        ContentAndroidFragment androidFragment = new ContentAndroidFragment(context);
         fragments.add(androidFragment);
         ContentIOSFragment iosFragment = new ContentIOSFragment();
         fragments.add(iosFragment);
@@ -90,14 +90,6 @@ public class ContentFragment extends BaseFragment {
         tabLayout.getTabAt(0).setText("All");
         tabLayout.getTabAt(1).setText("Android");
         tabLayout.getTabAt(2).setText("ios");
-
-
-
-
-
-
-
-
 
     }
 
