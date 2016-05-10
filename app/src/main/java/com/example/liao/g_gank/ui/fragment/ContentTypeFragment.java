@@ -22,32 +22,40 @@ import java.util.List;
 /**
  * Created by liao on 2016/5/7.
  */
-public class ContentAndroidFragment extends BaseFragment implements ContentContract.IContentView {
+public class ContentTypeFragment extends BaseFragment implements ContentContract.IContentView {
 
+    public static String ARGUMENT_KAY = "TYPE";
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private Context context;
+    private Bundle arguments;
+    private String type;
+    private boolean firstCreate;
 
-
-    public ContentAndroidFragment(Context context) {
-        super();
-        this.context = context;
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_content_android, null);
+        context = getActivity();
+
+        View view = inflater.inflate(R.layout.fragment_content_type, null);
 
         initView(view);
         initData();
+
+
 
         return view;
     }
 
 
+
     private void initView(View view) {
+
+
+        arguments = getArguments();
+        type = arguments.getString(ARGUMENT_KAY);
 
 
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srLayout);
@@ -60,14 +68,20 @@ public class ContentAndroidFragment extends BaseFragment implements ContentContr
     private void initData() {
 
         ContentPersenter contentPersenter = new ContentPersenter(this);
-        contentPersenter.loadData(1);
+
+        if (!firstCreate){
+
+            Log.e("onCreateView","onCreateView"+type);
+            contentPersenter.loadData(1,type);
+            firstCreate =true;
+        }
 
     }
 
     @Override
     public void showResult(List<ContentResult> list) {
 
-        Log.e("content",""+list);
+        Log.e("content", "" + list);
 
         if (list != null) {
             ContentFragmentAdapter contentFragmentAdapter = new ContentFragmentAdapter(list, context);
@@ -76,4 +90,6 @@ public class ContentAndroidFragment extends BaseFragment implements ContentContr
 
 
     }
+
+
 }

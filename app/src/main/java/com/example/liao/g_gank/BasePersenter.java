@@ -5,6 +5,6 @@ package com.example.liao.g_gank;
  */
 public interface BasePersenter {
 
-    void loadData(int page);
+//    void loadData(int page);
 
 }

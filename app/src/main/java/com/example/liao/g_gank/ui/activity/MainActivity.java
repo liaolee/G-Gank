@@ -1,10 +1,13 @@
 package com.example.liao.g_gank.ui.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -33,6 +36,7 @@ public class MainActivity extends BaseActivity {
      * 记录Manager内添加的Fragment
      */
     private List<Fragment> fragmentManagerList;
+    private Toolbar toolbar;
 
 
     @Override
@@ -47,6 +51,14 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+
+
+    }
+
     private void initData() {
 
         manager = getSupportFragmentManager();
@@ -57,7 +69,7 @@ public class MainActivity extends BaseActivity {
 
         fragmentManagerList = new ArrayList<>();
 
-        ContentFragment contentFragment = new ContentFragment(manager);
+        ContentFragment contentFragment = new ContentFragment();
         fragments.add(contentFragment);
         GirlFragment girlFragment = new GirlFragment();
         fragments.add(girlFragment);
@@ -75,7 +87,15 @@ public class MainActivity extends BaseActivity {
     private void initView() {
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setTitle("G-Gank");
+        toolbar.setTitleTextColor(Color.WHITE);
+
+
+
+        setSupportActionBar(toolbar);
+
+
 
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_content, "干货"));
@@ -84,6 +104,8 @@ public class MainActivity extends BaseActivity {
         bottomNavigationBar.initialise();
 
     }
+
+
 
 
     private void initEvent() {
@@ -107,6 +129,15 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return false;
+            }
+        });
+
 
 
     }
@@ -136,5 +167,11 @@ public class MainActivity extends BaseActivity {
 
         transaction.commit();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
     }
 }

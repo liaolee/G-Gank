@@ -11,8 +11,11 @@ import retrofit2.http.Path;
  */
 public interface ContentService {
 
-    @GET("Android/10/{page}")
-    Call<ContentResultRoot> getContent(@Path("page") int page);
+//    @Headers("Cache-Control: public, max-age=3600")
+    @GET("{data}/10/{page}")
+    Call<ContentResultRoot> getContent(@Path("data")String data,@Path("page") int page);
+
+
 
 
 }

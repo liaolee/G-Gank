@@ -45,6 +45,7 @@ public class ContentFragmentAdapter extends RecyclerView.Adapter {
         ViewHolder viewHolder = (ViewHolder) holder;
 
         viewHolder.titleText.setText(resultList.get(position).getDesc());
+        viewHolder.authorText.setText(resultList.get(position).getWho());
 
         Glide.with(context).load(resultList.get(position).getUrl()).into(viewHolder.authorImg);
 
@@ -61,12 +62,14 @@ public class ContentFragmentAdapter extends RecyclerView.Adapter {
 
         TextView titleText;
         ImageView authorImg;
+        private final TextView authorText;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             titleText = (TextView) itemView.findViewById(R.id.txt_title);
             authorImg = (ImageView) itemView.findViewById(R.id.img_author);
+            authorText = (TextView) itemView.findViewById(R.id.txt_author);
 
 
         }

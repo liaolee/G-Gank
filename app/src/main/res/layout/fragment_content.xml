@@ -4,13 +4,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/img_line">
 
-    </android.support.design.widget.TabLayout>
+
+        </android.support.design.widget.TabLayout>
+
+        <ImageView
+            android:id="@+id/img_line"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tLayout"
+            android:layout_alignTop="@+id/tLayout"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/ibtn_more"
+            android:background="#4452616a" />
+
+        <ImageButton
+            android:id="@+id/ibtn_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tLayout"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tLayout"
+            android:layout_margin="10dp"
+            android:background="#00000000"
+            android:src="@mipmap/ic_more" />
+
+    </RelativeLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
