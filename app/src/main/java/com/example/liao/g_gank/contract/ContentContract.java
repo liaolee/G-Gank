@@ -21,7 +21,7 @@ public interface ContentContract {
 
     interface IContentPersenter extends BasePersenter{
 
-        void loadData(int page, String type);
+        void loadData(int page, String type,int retrofitType);
     }
 
 }

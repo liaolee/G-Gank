@@ -5,10 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.liao.g_gank.R;
 import com.example.liao.g_gank.data.ContentResult;
 
@@ -22,10 +20,15 @@ public class ContentFragmentAdapter extends RecyclerView.Adapter {
     private List<ContentResult> resultList;
     private Context context;
 
-    public ContentFragmentAdapter(List<ContentResult> resultList,Context context) {
+    public ContentFragmentAdapter(Context context) {
+
+
+        this.context = context;
+    }
+
+    public void setData(List<ContentResult> resultList){
 
         this.resultList = resultList;
-        this.context = context;
     }
 
 
@@ -47,7 +50,6 @@ public class ContentFragmentAdapter extends RecyclerView.Adapter {
         viewHolder.titleText.setText(resultList.get(position).getDesc());
         viewHolder.authorText.setText(resultList.get(position).getWho());
 
-        Glide.with(context).load(resultList.get(position).getUrl()).into(viewHolder.authorImg);
 
     }
 
@@ -61,14 +63,12 @@ public class ContentFragmentAdapter extends RecyclerView.Adapter {
 
 
         TextView titleText;
-        ImageView authorImg;
-        private final TextView authorText;
+        TextView authorText;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             titleText = (TextView) itemView.findViewById(R.id.txt_title);
-            authorImg = (ImageView) itemView.findViewById(R.id.img_author);
             authorText = (TextView) itemView.findViewById(R.id.txt_author);
 
 

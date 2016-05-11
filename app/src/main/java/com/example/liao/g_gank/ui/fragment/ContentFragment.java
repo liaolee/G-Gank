@@ -36,12 +36,15 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
     private ImageButton ibtnMore;
     private List<String> showTypes;
     private ContentTypePersenter contentTypePersenter;
+    private ContentAdapter contentAdapter;
+    private List<Fragment> fragments;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_content, null);
+
 
 
         initView(view);
@@ -66,8 +69,10 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
         manager = getActivity().getSupportFragmentManager();
         context = getActivity();
 
-        contentTypePersenter = new ContentTypePersenter(this);
-//        contentTypePersenter.readDB();
+        if (contentTypePersenter == null) {
+
+            contentTypePersenter = new ContentTypePersenter(this);
+        }
 
 
     }
@@ -78,7 +83,7 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
         tabLayout = (TabLayout) view.findViewById(R.id.tLayout);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-
+        viewPager.setOffscreenPageLimit(3);
         ibtnMore = (ImageButton) view.findViewById(R.id.ibtn_more);
 
     }
@@ -107,25 +112,32 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
     public void showType(List<String> types) {
 
         showTypes = types;
-        List<Fragment> fragments = new ArrayList<>();
+        if (fragments == null){
 
+            fragments = new ArrayList<>();
+
+        }
+        fragments.clear();
 
         for (String type : types) {
 
-            ContentTypeFragment allFragment = new ContentTypeFragment();
+            ContentTypeFragment typeFragment = new ContentTypeFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(ContentTypeFragment.ARGUMENT_KAY,type);
+            bundle.putString(ContentTypeFragment.ARGUMENT_KAY, type);
+            typeFragment.setArguments(bundle);
 
-            allFragment.setArguments(bundle);
-
-
-            fragments.add(allFragment);
-
+            fragments.add(typeFragment);
 
         }
 
+        if (contentAdapter == null) {
 
-        viewPager.setAdapter(new ContentAdapter(manager, fragments));
+            contentAdapter = new ContentAdapter(manager);
+        }
+        contentAdapter.setData(fragments);
+        contentAdapter.notifyDataSetChanged();
+
+        viewPager.setAdapter(contentAdapter);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < types.size(); i++) {
 

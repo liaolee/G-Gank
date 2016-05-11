@@ -2,11 +2,11 @@ package com.example.liao.g_gank.persenter;
 
 import android.util.Log;
 
-import com.example.liao.g_gank.api.ContentService;
-import com.example.liao.g_gank.contract.ContentContract;
-import com.example.liao.g_gank.data.ContentResult;
-import com.example.liao.g_gank.data.ContentResultRoot;
-import com.example.liao.g_gank.ui.fragment.ContentTypeFragment;
+import com.example.liao.g_gank.api.GirlService;
+import com.example.liao.g_gank.contract.GirlContract;
+import com.example.liao.g_gank.data.GirlResult;
+import com.example.liao.g_gank.data.GirlResultRoot;
+import com.example.liao.g_gank.ui.fragment.GirlFragment;
 import com.example.liao.g_gank.utils.NetUtils;
 
 import java.io.IOException;
@@ -26,21 +26,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by liao on 2016/5/8.
  */
-public class ContentPersenter implements ContentContract.IContentPersenter {
+public class GirlPersenter implements GirlContract.IGirlPersenter {
 
     public static final int CACHE_RETROFIT = 0;
     public static final int NET_RETROFIT = 1;
-    private ContentTypeFragment contentTypeFragment;
+    private GirlFragment girlFragment;
     private Retrofit retrofit;
     private Retrofit chcheRetrofit = null;
-    private ContentService contentService;
-    private Call<ContentResultRoot> call;
+    private GirlService girlService;
+    private Call<GirlResultRoot> call;
 
-    public ContentPersenter(final ContentTypeFragment contentAndroidFragment) {
+    public GirlPersenter(final GirlFragment girlFragment) {
 
-        this.contentTypeFragment = contentAndroidFragment;
+        this.girlFragment = girlFragment;
 
-        Log.e("NetUtils", "NetUtils = " + NetUtils.isConnected(contentAndroidFragment.getContext()));
+        Log.e("NetUtils", "NetUtils = " + NetUtils.isConnected(girlFragment.getContext()));
 
         Interceptor interceptor = new Interceptor() {
             @Override
@@ -62,7 +62,7 @@ public class ContentPersenter implements ContentContract.IContentPersenter {
         };
 
         //设置缓存 10M
-        Cache cache = new Cache(contentAndroidFragment.getActivity().getCacheDir(), 10 * 1024 * 1024);
+        Cache cache = new Cache(girlFragment.getActivity().getCacheDir(), 10 * 1024 * 1024);
 
         //创建OkHttpClient，并添加拦截器和缓存代码
         OkHttpClient client = new OkHttpClient.Builder()
@@ -82,27 +82,22 @@ public class ContentPersenter implements ContentContract.IContentPersenter {
     @Override
     public void loadData(int page, String type, int retrofitType) {
 
-        contentService = chcheRetrofit.create(ContentService.class);
+        girlService = chcheRetrofit.create(GirlService.class);
 
-        call = contentService.getContent(type, page);
-        call.enqueue(new Callback<ContentResultRoot>() {
-
-            private ContentResultRoot body;
-            private List<ContentResult> list;
+        call = girlService.getContent(type, page);
+        call.enqueue(new Callback<GirlResultRoot>() {
 
             @Override
-            public void onResponse(Call<ContentResultRoot> call, Response<ContentResultRoot> response) {
+            public void onResponse(Call<GirlResultRoot> call, Response<GirlResultRoot> response) {
 
 
-                body = response.body();
-                list = body.getResults();
-                contentTypeFragment.showResult(list);
-
-
+                GirlResultRoot body = response.body();
+                List<GirlResult> list = body.getResults();
+                girlFragment.showResult(list);
             }
 
             @Override
-            public void onFailure(Call<ContentResultRoot> call, Throwable t) {
+            public void onFailure(Call<GirlResultRoot> call, Throwable t) {
 
             }
         });

@@ -65,7 +65,12 @@ public class MainActivity extends BaseActivity {
 
         transaction = manager.beginTransaction();
 
-        fragments = new ArrayList<>();
+        if (fragments == null){
+
+            fragments = new ArrayList<>();
+
+        }
+        fragments.clear();
 
         fragmentManagerList = new ArrayList<>();
 
@@ -78,6 +83,10 @@ public class MainActivity extends BaseActivity {
 
         transaction.add(R.id.fLayout, contentFragment, contentFragment.getTag());
         fragmentManagerList.add(contentFragment);
+
+
+//        transaction.add(R.id.fLayout, girlFragment, contentFragment.getTag());
+//        fragmentManagerList.add(girlFragment);
         transaction.commit();
 
 

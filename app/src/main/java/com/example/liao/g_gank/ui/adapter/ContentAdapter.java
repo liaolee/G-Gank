@@ -14,8 +14,13 @@ public class ContentAdapter extends FragmentStatePagerAdapter {
 
     List<Fragment> fragments;
 
-    public ContentAdapter(FragmentManager fm, List fragments) {
-        super(fm);
+
+
+    public ContentAdapter(FragmentManager manager) {
+        super(manager);
+    }
+
+    public void setData( List fragments){
 
         this.fragments = fragments;
     }
