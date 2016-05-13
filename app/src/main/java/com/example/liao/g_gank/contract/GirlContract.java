@@ -2,7 +2,7 @@ package com.example.liao.g_gank.contract;
 
 import com.example.liao.g_gank.BasePersenter;
 import com.example.liao.g_gank.BaseView;
-import com.example.liao.g_gank.model.data.GirlResult;
+import com.example.liao.g_gank.data.GirlResult;
 
 import java.util.List;
 
@@ -13,12 +13,15 @@ public interface GirlContract {
 
     interface IGirlView extends BaseView{
 
+
+
+
         void showResult(List<GirlResult> list);
     }
 
     interface IGirlPersenter extends BasePersenter{
 
-        void loadData(int page, String type);
+        void loadData(int page, String type, int retrofitType);
     }
 
 }

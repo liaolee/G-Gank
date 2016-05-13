@@ -44,9 +44,13 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_content, null);
+
+
+
         initView(view);
         init();
         initEvent();
+
 
         return view;
 
@@ -55,10 +59,12 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
     @Override
     public void onResume() {
         super.onResume();
+
         contentTypePersenter.readDB();
     }
 
     private void init() {
+
 
         manager = getActivity().getSupportFragmentManager();
         context = getActivity();
@@ -67,6 +73,8 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
 
             contentTypePersenter = new ContentTypePersenter(this);
         }
+
+
     }
 
 
@@ -89,7 +97,10 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), ChoiceTypeActivity.class);
+
+
                 intent.putStringArrayListExtra(ChoiceTypeActivity.INTENT_KEY, (ArrayList<String>) showTypes);
+
                 startActivity(intent);
 
             }

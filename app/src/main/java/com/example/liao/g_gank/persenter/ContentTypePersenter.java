@@ -35,6 +35,7 @@ public class ContentTypePersenter implements ContentTypeContrect.IContentTypePer
 
         List<String> types = new ArrayList<>();
 
+        String[] columns = {"type"};
         cursor = writableDatabase.query("follow", null, null, null, null, null, null);
 
         Log.e("cursor", "cursor = " + cursor.getCount());
@@ -54,6 +55,7 @@ public class ContentTypePersenter implements ContentTypeContrect.IContentTypePer
                 types.add(type);
             }
         }
+
 
         contentFragment.showType(types);
 

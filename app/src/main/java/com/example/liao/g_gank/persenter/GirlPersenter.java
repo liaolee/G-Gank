@@ -1,54 +1,107 @@
 package com.example.liao.g_gank.persenter;
 
+import android.util.Log;
+
+import com.example.liao.g_gank.api.GirlService;
 import com.example.liao.g_gank.contract.GirlContract;
-import com.example.liao.g_gank.model.GirlResultModel;
-import com.example.liao.g_gank.model.data.GirlResult;
-import com.example.liao.g_gank.model.data.GirlResultRoot;
+import com.example.liao.g_gank.data.GirlResult;
+import com.example.liao.g_gank.data.GirlResultRoot;
 import com.example.liao.g_gank.ui.fragment.GirlFragment;
 import com.example.liao.g_gank.utils.NetUtils;
 
+import java.io.IOException;
 import java.util.List;
 
-import rx.Subscriber;
+import okhttp3.Cache;
+import okhttp3.CacheControl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by liao on 2016/5/8.
  */
 public class GirlPersenter implements GirlContract.IGirlPersenter {
 
+    public static final int CACHE_RETROFIT = 0;
+    public static final int NET_RETROFIT = 1;
     private GirlFragment girlFragment;
+    private Retrofit retrofit;
+    private Retrofit chcheRetrofit = null;
+    private GirlService girlService;
+    private Call<GirlResultRoot> call;
 
     public GirlPersenter(final GirlFragment girlFragment) {
 
         this.girlFragment = girlFragment;
 
-    }
+        Log.e("NetUtils", "NetUtils = " + NetUtils.isConnected(girlFragment.getContext()));
 
-    @Override
-    public void loadData(int page, String type) {
-
-        Subscriber subscriber = new Subscriber<GirlResultRoot>() {
-
+        Interceptor interceptor = new Interceptor() {
             @Override
-            public void onCompleted() {
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
 
-            }
+                request = request.newBuilder()
+                        .cacheControl(CacheControl.FORCE_CACHE)
+                        .build();
 
-            @Override
-            public void onError(Throwable e) {
+                okhttp3.Response originalResponse = chain.proceed(request);
 
-            }
-
-            @Override
-            public void onNext(GirlResultRoot girlResultRoot) {
-
-                List<GirlResult> list = girlResultRoot.getResults();
-                girlFragment.showResult(list);
+                return originalResponse.newBuilder()
+                        .header("Cache-Control", "public, only-if-cached, max-stale=2419200,max-age=3600")
+                        .removeHeader("Pragma")
+                        .build();
 
             }
         };
 
-        GirlResultModel.instance(NetUtils.isConnected(girlFragment.getContext())).getGirlResult(subscriber, type, page);
+        //设置缓存 10M
+        Cache cache = new Cache(girlFragment.getActivity().getCacheDir(), 10 * 1024 * 1024);
+
+        //创建OkHttpClient，并添加拦截器和缓存代码
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addNetworkInterceptor(interceptor)
+                .cache(cache)
+                .build();
+
+        chcheRetrofit = new Retrofit.Builder()
+                .baseUrl("http://gank.io/api/data/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+    }
+
+    @Override
+    public void loadData(int page, String type, int retrofitType) {
+
+        girlService = chcheRetrofit.create(GirlService.class);
+
+        call = girlService.getContent(type, page);
+        call.enqueue(new Callback<GirlResultRoot>() {
+
+            @Override
+            public void onResponse(Call<GirlResultRoot> call, Response<GirlResultRoot> response) {
+
+
+                GirlResultRoot body = response.body();
+                List<GirlResult> list = body.getResults();
+                girlFragment.showResult(list);
+            }
+
+            @Override
+            public void onFailure(Call<GirlResultRoot> call, Throwable t) {
+
+            }
+        });
+
 
     }
 

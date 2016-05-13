@@ -82,6 +82,7 @@ public class ChoiceTypeAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_choice_list, null);
 
             viewHolder.titleText = (TextView) convertView.findViewById(R.id.txt_type_title);
+//            viewHolder.titleCheck = (CheckBox) convertView.findViewById(R.id.chk_choice);
             viewHolder.imgLine = (ImageView) convertView.findViewById(R.id.img_line);
 
             convertView.setTag(viewHolder);
@@ -105,6 +106,7 @@ public class ChoiceTypeAdapter extends BaseAdapter {
 
             if (type_list.contains(allType[position])) {
 
+
                 listView.setItemChecked(position, true);
                 Log.e("listView", "listView = " + listView.isItemChecked(position));
                 Log.e("listView", "listView = " + position);
@@ -118,9 +120,14 @@ public class ChoiceTypeAdapter extends BaseAdapter {
             viewHolder.imgLine.setBackgroundColor(context.getResources().getColor(R.color.colorDef));
 
         }
+
+
     }
 
     public void seleted(View convertView, ViewHolder viewHolder, int position) {
+
+        Log.e("listView", "listView == " + listView.isItemChecked(position));
+        Log.e("listView", "listView == " + position);
 
         isSeleted = true;
         if (!listView.isItemChecked(position)) {
@@ -143,6 +150,7 @@ public class ChoiceTypeAdapter extends BaseAdapter {
 
             }
 
+//            ContentValues contentValues = new ContentValues();
             if (!list.contains(allType[position])) {
 
                 contentValues.clear();
@@ -158,7 +166,10 @@ public class ChoiceTypeAdapter extends BaseAdapter {
     public class ViewHolder {
 
         TextView titleText;
+        //        CheckBox titleCheck;
         ImageView imgLine;
+
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.liao.g_gank.model.data;
+package com.example.liao.g_gank.data;
 
 /**
  * Created by liao on 2016/5/11.
