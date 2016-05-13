@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.liao.g_gank.R;
 import com.example.liao.g_gank.contract.GirlContract;
-import com.example.liao.g_gank.data.GirlResult;
+import com.example.liao.g_gank.model.data.GirlResult;
 import com.example.liao.g_gank.persenter.GirlPersenter;
 import com.example.liao.g_gank.ui.adapter.GirlFragmentAdapter;
 
@@ -44,7 +44,7 @@ public class GirlFragment extends BaseFragment implements GirlContract.IGirlView
         context = getActivity();
         GirlPersenter persenter = new GirlPersenter(this);
 
-        persenter.loadData(1, "福利", GirlPersenter.CACHE_RETROFIT);
+        persenter.loadData(1, "福利");
 
     }
 
@@ -63,11 +63,9 @@ public class GirlFragment extends BaseFragment implements GirlContract.IGirlView
         if (list != null) {
 
             if (girlFragmentAdapter == null) {
-
                 girlFragmentAdapter = new GirlFragmentAdapter(context);
 
             }
-
 
             girlFragmentAdapter.setData(list);
             girlFragmentAdapter.notifyDataSetChanged();

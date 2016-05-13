@@ -48,24 +48,37 @@ public class MainActivity extends BaseActivity {
         initData();
         initEvent();
 
+    }
+
+
+    /**
+     * 实例化控件
+     */
+    private void initView() {
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setTitle("G-Gank");
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        setSupportActionBar(toolbar);
+
+        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_content, "干货"));
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_girl, "妹纸"));
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_videocam, "视频"));
+        bottomNavigationBar.initialise();
 
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-
-
-    }
-
+    /**
+     *
+     */
     private void initData() {
 
         manager = getSupportFragmentManager();
-
         transaction = manager.beginTransaction();
 
-        if (fragments == null){
+        if (fragments == null) {
 
             fragments = new ArrayList<>();
 
@@ -84,39 +97,14 @@ public class MainActivity extends BaseActivity {
         transaction.add(R.id.fLayout, contentFragment, contentFragment.getTag());
         fragmentManagerList.add(contentFragment);
 
-
-//        transaction.add(R.id.fLayout, girlFragment, contentFragment.getTag());
-//        fragmentManagerList.add(girlFragment);
         transaction.commit();
 
-
     }
 
 
-    private void initView() {
-
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        toolbar.setTitle("G-Gank");
-        toolbar.setTitleTextColor(Color.WHITE);
-
-
-
-        setSupportActionBar(toolbar);
-
-
-
-        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_content, "干货"));
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_girl, "妹子"));
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_videocam, "视频"));
-        bottomNavigationBar.initialise();
-
-    }
-
-
-
-
+    /**
+     * 控件行为
+     */
     private void initEvent() {
 
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
@@ -124,7 +112,6 @@ public class MainActivity extends BaseActivity {
             public void onTabSelected(int position) {
 
                 toFragment(position);
-
 
             }
 
@@ -146,7 +133,6 @@ public class MainActivity extends BaseActivity {
                 return false;
             }
         });
-
 
 
     }
@@ -180,7 +166,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 }

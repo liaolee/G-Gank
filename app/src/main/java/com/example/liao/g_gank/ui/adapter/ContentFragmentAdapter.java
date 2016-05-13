@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.liao.g_gank.R;
-import com.example.liao.g_gank.data.ContentResult;
+import com.example.liao.g_gank.model.data.ContentResult;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.liao.g_gank.data;
+package com.example.liao.g_gank.model.data;
 
 import java.util.List;
 

@@ -23,6 +23,7 @@ public class ChoiceTypeActivity extends BaseActivity implements ChoiceTypeContra
     private ListView listView;
     private List<String> type_list;
     private ChoiceTypeAdapter choiceAdapter;
+    private ChoiceTypePersenter choiceTypePersenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,13 +37,15 @@ public class ChoiceTypeActivity extends BaseActivity implements ChoiceTypeContra
     }
 
 
-
     private void initData() {
 
         Intent intent = getIntent();
         type_list = intent.getStringArrayListExtra(INTENT_KEY);
 
-        ChoiceTypePersenter choiceTypePersenter = new ChoiceTypePersenter(this);
+        if (choiceTypePersenter == null) {
+
+            choiceTypePersenter = new ChoiceTypePersenter(this);
+        }
         choiceTypePersenter.loadChoiceType();
 
     }
@@ -59,7 +62,7 @@ public class ChoiceTypeActivity extends BaseActivity implements ChoiceTypeContra
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                choiceAdapter.seleted(view,(ChoiceTypeAdapter.ViewHolder) view.getTag(),position);
+                choiceAdapter.seleted(view, (ChoiceTypeAdapter.ViewHolder) view.getTag(), position);
             }
         });
 
@@ -69,7 +72,7 @@ public class ChoiceTypeActivity extends BaseActivity implements ChoiceTypeContra
     @Override
     public void showChoiceType(String[] allType) {
 
-        choiceAdapter = new ChoiceTypeAdapter(this, listView, type_list ,allType);
+        choiceAdapter = new ChoiceTypeAdapter(this, listView, type_list, allType);
         listView.setAdapter(choiceAdapter);
 
     }
