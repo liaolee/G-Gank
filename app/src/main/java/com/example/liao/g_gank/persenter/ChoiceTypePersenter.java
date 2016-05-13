@@ -19,9 +19,7 @@ public class ChoiceTypePersenter implements ChoiceTypeContract.IChoicePersenter 
     @Override
     public void loadChoiceType() {
 
-
         String[] type = {"Android", "iOS", "休息视频", "拓展资源", "前端", "all"};
-
         choiceTypeActivity.showChoiceType(type);
 
     }

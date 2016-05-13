@@ -46,5 +46,4 @@ public class ContentAdapter extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
-
 }
