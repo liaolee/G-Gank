@@ -22,8 +22,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.ChoiceTypeActivity" />
-        <activity android:name=".ui.activity.GankWebActivity"/>
-        <activity android:name=".ui.activity.ShowGirlActivity"/>
     </application>
 
 </manifest>
