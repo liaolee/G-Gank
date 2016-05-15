@@ -17,6 +17,7 @@
             android:id="@+id/img_girl"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:transitionName="@string/picture"
             android:scaleType="centerCrop" />
 
         <TextView

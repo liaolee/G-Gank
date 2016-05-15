@@ -155,6 +155,8 @@ public class ChoiceTypeAdapter extends BaseAdapter {
 
     }
 
+
+
     public class ViewHolder {
 
         TextView titleText;

@@ -1,6 +1,5 @@
 package com.example.liao.g_gank.ui.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.liao.g_gank.R;
 import com.example.liao.g_gank.model.data.GirlResult;
+import com.example.liao.g_gank.ui.fragment.GirlFragment;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ import java.util.List;
  */
 public class GirlFragmentAdapter extends RecyclerView.Adapter {
 
-    private Context context;
+    private GirlFragment girlFragment;
     private List<GirlResult> list;
 
-    public GirlFragmentAdapter(Context context) {
+    public GirlFragmentAdapter(GirlFragment girlFragment) {
 
-        this.context = context;
+        this.girlFragment = girlFragment;
     }
 
     public void setData(List<GirlResult> list) {
@@ -44,15 +44,22 @@ public class GirlFragmentAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        ViewHolder viewHolder = (ViewHolder) holder;
+        ViewHolder viewHolder =  (ViewHolder) holder;
 
-        Glide.with(context).load(list.get(position).getUrl()).into(viewHolder.imageView);
+        Glide.with(girlFragment).load(list.get(position).getUrl()).into(viewHolder.imageView);
         viewHolder.textView.setText(list.get(position).getDesc());
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+
+    public void getShowGirl(RecyclerView.ViewHolder viewHolder){
+
+        girlFragment.showGirlActivity(list.get(viewHolder.getAdapterPosition()),viewHolder.itemView);
+
     }
 
 
