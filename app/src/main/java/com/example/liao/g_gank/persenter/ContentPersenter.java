@@ -7,6 +7,7 @@ import com.example.liao.g_gank.model.data.ContentResultRoot;
 import com.example.liao.g_gank.ui.fragment.ContentTypeFragment;
 import com.example.liao.g_gank.utils.NetUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -18,17 +19,18 @@ public class ContentPersenter implements ContentContract.IContentPersenter {
 
 
     private ContentTypeFragment contentTypeFragment;
+    private final List<ContentResult> listAll;
 
     public ContentPersenter(final ContentTypeFragment contentAndroidFragment) {
 
         this.contentTypeFragment = contentAndroidFragment;
-
+        listAll = new ArrayList<>();
     }
 
 
 
     @Override
-    public void loadData(int page, String type) {
+    public void loadData(final int page, String type) {
 
         //观察者
         Subscriber subscriber = new Subscriber<ContentResultRoot>(){
@@ -47,7 +49,14 @@ public class ContentPersenter implements ContentContract.IContentPersenter {
             public void onNext(ContentResultRoot contentResultRoot) {
 
                 List<ContentResult> list = contentResultRoot.getResults();
-                contentTypeFragment.showResult(list);
+                if (page == 1){
+                    listAll.clear();
+                    listAll.addAll(list);
+                }else{
+                    listAll.addAll(list);
+                }
+
+                contentTypeFragment.showResult(listAll);
 
             }
         };

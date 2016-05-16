@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +31,12 @@ public class GirlFragment extends BaseFragment implements GirlContract.IGirlView
     private Context context;
     private GirlFragmentAdapter girlFragmentAdapter;
     private RecyclerView reLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private GirlPersenter persenter;
+    private GridLayoutManager gridLayoutManager;
+    private String TAG = "GirlFragment" ;
+    private boolean isLoadingMore;
+    private int loadIndex = 1;
 
     @Nullable
     @Override
@@ -54,12 +60,55 @@ public class GirlFragment extends BaseFragment implements GirlContract.IGirlView
                 girlFragmentAdapter.getShowGirl(vh);
             }
         });
+
+
+
+        reLayout.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                int lastVisibleItem = gridLayoutManager.findLastVisibleItemPosition();
+                int totalItemCount = gridLayoutManager.getItemCount();
+
+                //lastVisibleItem >= totalItemCount - 3 表示剩下4个item自动加载
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 3 && dy > 0) {
+                    if(isLoadingMore){
+
+                    } else{
+                        swipeRefreshLayout.setRefreshing(true);
+                        loadIndex++;
+                        persenter.loadData(loadIndex, "福利");
+                        isLoadingMore = true;
+                    }
+                }
+
+
+            }
+        });
+
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                persenter.loadData(1, "福利");
+                loadIndex = 1;
+            }
+        });
     }
 
     private void initData() {
 
         context = getActivity();
-        GirlPersenter persenter = new GirlPersenter(this);
+        if (persenter == null){
+
+            persenter = new GirlPersenter(this);
+
+        }
 
         persenter.loadData(1, "福利");
 
@@ -68,7 +117,10 @@ public class GirlFragment extends BaseFragment implements GirlContract.IGirlView
     private void initView(View view) {
 
         reLayout = (RecyclerView) view.findViewById(R.id.reLayout_girl);
-        reLayout.setLayoutManager(new GridLayoutManager(context, 2));
+        gridLayoutManager = new GridLayoutManager(context,2);
+        reLayout.setLayoutManager(gridLayoutManager);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srLayout_girl);
 
     }
 
@@ -76,19 +128,41 @@ public class GirlFragment extends BaseFragment implements GirlContract.IGirlView
     @Override
     public void showResult(List<GirlResult> list) {
 
-        Log.e("GirlResult", "GirlResult list = " + list.size());
+        isLoadingMore = false;
+
         if (list != null) {
 
             if (girlFragmentAdapter == null) {
                 girlFragmentAdapter = new GirlFragmentAdapter(this);
-
+                reLayout.setAdapter(girlFragmentAdapter);
             }
 
             girlFragmentAdapter.setData(list);
-            girlFragmentAdapter.notifyDataSetChanged();
+            reLayout.requestLayout();
 
-            reLayout.setAdapter(girlFragmentAdapter);
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    //避免加载过快看不到加载进度
+                    Thread.sleep(1000);
+
+                    swipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
 
 
     }
@@ -107,7 +181,6 @@ public class GirlFragment extends BaseFragment implements GirlContract.IGirlView
             e.printStackTrace();
             startActivity(intent);
         }
-//        startActivity(intent);
 
     }
 }

@@ -106,8 +106,6 @@ public class ChoiceTypeAdapter extends BaseAdapter {
             if (type_list.contains(allType[position])) {
 
                 listView.setItemChecked(position, true);
-                Log.e("listView", "listView = " + listView.isItemChecked(position));
-                Log.e("listView", "listView = " + position);
                 viewHolder.imgLine.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
 
 

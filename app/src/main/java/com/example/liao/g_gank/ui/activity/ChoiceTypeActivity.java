@@ -1,8 +1,10 @@
 package com.example.liao.g_gank.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,6 +26,7 @@ public class ChoiceTypeActivity extends BaseActivity implements ChoiceTypeContra
     private List<String> type_list;
     private ChoiceTypeAdapter choiceAdapter;
     private ChoiceTypePersenter choiceTypePersenter;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +57,10 @@ public class ChoiceTypeActivity extends BaseActivity implements ChoiceTypeContra
 
         listView = (ListView) findViewById(R.id.list_type_choice);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setTitle("关注");
+        toolbar.setTitleTextColor(Color.WHITE);
 
     }
 

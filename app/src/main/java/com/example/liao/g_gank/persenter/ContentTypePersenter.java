@@ -3,7 +3,6 @@ package com.example.liao.g_gank.persenter;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.liao.g_gank.contract.ContentTypeContrect;
 import com.example.liao.g_gank.ui.fragment.ContentFragment;
@@ -37,7 +36,6 @@ public class ContentTypePersenter implements ContentTypeContrect.IContentTypePer
 
         cursor = writableDatabase.query("follow", null, null, null, null, null, null);
 
-        Log.e("cursor", "cursor = " + cursor.getCount());
         if (cursor.getCount() == 0) {
 
             ContentValues contentValues = new ContentValues();

@@ -7,6 +7,7 @@ import com.example.liao.g_gank.model.data.GirlResultRoot;
 import com.example.liao.g_gank.ui.fragment.GirlFragment;
 import com.example.liao.g_gank.utils.NetUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -17,15 +18,17 @@ import rx.Subscriber;
 public class GirlPersenter implements GirlContract.IGirlPersenter {
 
     private GirlFragment girlFragment;
+    private final List<GirlResult> listAll;
 
     public GirlPersenter(final GirlFragment girlFragment) {
 
         this.girlFragment = girlFragment;
+        listAll = new ArrayList<>();
 
     }
 
     @Override
-    public void loadData(int page, String type) {
+    public void loadData(final int page, String type) {
 
         Subscriber subscriber = new Subscriber<GirlResultRoot>() {
 
@@ -43,7 +46,15 @@ public class GirlPersenter implements GirlContract.IGirlPersenter {
             public void onNext(GirlResultRoot girlResultRoot) {
 
                 List<GirlResult> list = girlResultRoot.getResults();
-                girlFragment.showResult(list);
+
+                if (page == 1){
+                    listAll.clear();
+                    listAll.addAll(list);
+                }else{
+                    listAll.addAll(list);
+                }
+
+                girlFragment.showResult(listAll);
 
             }
         };

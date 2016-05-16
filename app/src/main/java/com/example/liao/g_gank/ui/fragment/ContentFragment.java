@@ -48,6 +48,7 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
         init();
         initEvent();
 
+
         return view;
 
     }
@@ -122,11 +123,11 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
         if (contentAdapter == null) {
 
             contentAdapter = new ContentAdapter(manager);
+            viewPager.setAdapter(contentAdapter);
         }
         contentAdapter.setData(fragments);
         contentAdapter.notifyDataSetChanged();
 
-        viewPager.setAdapter(contentAdapter);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < types.size(); i++) {
 

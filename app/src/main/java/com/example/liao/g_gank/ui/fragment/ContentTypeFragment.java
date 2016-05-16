@@ -28,6 +28,7 @@ import java.util.List;
 public class ContentTypeFragment extends BaseFragment implements ContentContract.IContentView {
 
     private final String TAG = "ContentTypeFragment";
+    private final String SAVA_STATE = "SavaState";
     public static String ARGUMENT_KAY = "TYPE";
     private RecyclerView recyclerView;
     private Context context;
@@ -37,16 +38,22 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
     private ContentPersenter contentPersenter;
     private ContentFragmentAdapter contentFragmentAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private boolean isLoadingMore;
+    private int loadIndex =1 ;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        Log.e(TAG,"onCreateView = " + loadIndex);
+
         View view = inflater.inflate(R.layout.fragment_content_type, container, false);
         initView(view);
         initData();
         initEvent();
+
+        Log.e(TAG,"onCreateView = " + loadIndex);
 
         return view;
     }
@@ -57,9 +64,32 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
 
-                Log.e(TAG,TAG +" = "+vh.getAdapterPosition());
                 contentFragmentAdapter.getGankUrl(vh.getAdapterPosition());
 
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
+                    if(isLoadingMore){
+
+                    } else{
+
+                        swipeRefreshLayout.setRefreshing(true);
+                        loadIndex++;
+                        contentPersenter.loadData(loadIndex, type);
+                        isLoadingMore = true;
+                    }
+                }
             }
         });
 
@@ -68,6 +98,7 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
             public void onRefresh() {
 
                 contentPersenter.loadData(1, type);
+                loadIndex =1;
             }
         });
     }
@@ -95,25 +126,48 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
             contentPersenter = new ContentPersenter(this);
         }
 
-        contentPersenter.loadData(1, type);
+        contentPersenter.loadData(loadIndex, type);
 
     }
 
     @Override
     public void showResult(List<ContentResult> list) {
 
-        swipeRefreshLayout.setRefreshing(false);
+
+        isLoadingMore = false;
 
         if (list != null) {
 
             if (contentFragmentAdapter == null) {
                 contentFragmentAdapter = new ContentFragmentAdapter(this);
+                recyclerView.setAdapter(contentFragmentAdapter);
             }
             contentFragmentAdapter.setData(list);
             contentFragmentAdapter.notifyDataSetChanged();
-            recyclerView.setAdapter(contentFragmentAdapter);
-
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    //避免加载过快看不到加载进度
+                    Thread.sleep(1000);
+
+                    swipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
 
     }
 
