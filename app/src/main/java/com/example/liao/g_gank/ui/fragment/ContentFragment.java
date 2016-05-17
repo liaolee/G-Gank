@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
     private ContentTypePersenter contentTypePersenter;
     private ContentAdapter contentAdapter;
     private List<Fragment> fragments;
+    private String TAG = "ContentFragment";
 
     @Nullable
     @Override
@@ -110,6 +112,8 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
         fragments.clear();
 
         for (String type : types) {
+
+            Log.e(TAG,"TYPE = " + type);
 
             ContentTypeFragment typeFragment = new ContentTypeFragment();
             Bundle bundle = new Bundle();

@@ -2,7 +2,7 @@ package com.example.liao.g_gank.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by liao on 2016/5/7.
  */
-public class ContentAdapter extends FragmentStatePagerAdapter {
+public class ContentAdapter extends FragmentPagerAdapter {
 
     List<Fragment> fragments = new ArrayList<>();
 
@@ -21,7 +21,7 @@ public class ContentAdapter extends FragmentStatePagerAdapter {
         super(manager);
     }
 
-    public void setData( List fragments){
+    public void setData( List<Fragment> fragments){
 
         this.fragments = fragments;
     }
@@ -42,9 +42,6 @@ public class ContentAdapter extends FragmentStatePagerAdapter {
         return f;
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
-    }
+
 
 }

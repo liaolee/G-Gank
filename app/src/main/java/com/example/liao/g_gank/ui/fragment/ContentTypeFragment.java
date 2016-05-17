@@ -28,7 +28,6 @@ import java.util.List;
 public class ContentTypeFragment extends BaseFragment implements ContentContract.IContentView {
 
     private final String TAG = "ContentTypeFragment";
-    private final String SAVA_STATE = "SavaState";
     public static String ARGUMENT_KAY = "TYPE";
     private RecyclerView recyclerView;
     private Context context;
@@ -46,14 +45,12 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Log.e(TAG,"onCreateView = " + loadIndex);
 
         View view = inflater.inflate(R.layout.fragment_content_type, container, false);
         initView(view);
         initData();
         initEvent();
 
-        Log.e(TAG,"onCreateView = " + loadIndex);
 
         return view;
     }
@@ -121,13 +118,15 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
         arguments = getArguments();
         type = arguments.getString(ARGUMENT_KAY);
 
+        Log.e(TAG,"type = " +type);
+
         if (contentPersenter == null) {
 
             contentPersenter = new ContentPersenter(this);
         }
 
         contentPersenter.loadData(loadIndex, type);
-
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -171,16 +170,7 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (contentFragmentAdapter != null) {
-
-            contentFragmentAdapter = null;
-
-        }
-    }
 
     public void showGankWebView(ContentResult contentResult){
         if (contentResult != null){

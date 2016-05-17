@@ -12,6 +12,8 @@ import com.example.liao.g_gank.ui.fragment.ContentTypeFragment;
 
 import java.util.List;
 
+import me.gujun.android.taggroup.TagGroup;
+
 /**
  * Created by liao on 2016/5/8.
  */
@@ -49,7 +51,7 @@ public class ContentFragmentAdapter extends RecyclerView.Adapter {
 
         viewHolder.titleText.setText(resultList.get(position).getDesc());
         viewHolder.authorText.setText(resultList.get(position).getWho());
-
+        viewHolder.tagGroup.setTags(resultList.get(position).getType());
 
     }
 
@@ -71,13 +73,14 @@ public class ContentFragmentAdapter extends RecyclerView.Adapter {
 
         TextView titleText;
         TextView authorText;
+        TagGroup tagGroup;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             titleText = (TextView) itemView.findViewById(R.id.txt_title);
             authorText = (TextView) itemView.findViewById(R.id.txt_author);
-
+            tagGroup = (TagGroup) itemView.findViewById(R.id.tg_type);
 
         }
 
