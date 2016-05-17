@@ -6,7 +6,7 @@
 这一个是阅读类App，主要是开发相关的技术博客。项目使用Retrofit + OKHttp + RxJava进行开发，并使用了MVP模式。
 
 ##截图
-![1](http://thumbnail0.baidupcs.com/thumbnail/c15fd91b56ea2d50e0c13fae7e160a85?fid=219910186-250528-885139140422917&time=1463371200&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-H0GcqafDnff0RObxmkegRR7yLvg%3d&expires=8h&chkbd=0&chkv=0&dp-logid=3166399150520563020&dp-callid=0&size=c10000_u10000&quality=90)
+![1](http://upload-images.jianshu.io/upload_images/1652200-72410fc24f383227.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 ##使用的开源库
