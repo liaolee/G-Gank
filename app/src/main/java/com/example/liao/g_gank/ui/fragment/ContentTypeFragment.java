@@ -182,8 +182,12 @@ public class ContentTypeFragment extends BaseFragment implements ContentContract
 
         }
 
-
-
-
     }
+
+    public String getTypt(){
+
+        return type;
+    }
+
+
 }

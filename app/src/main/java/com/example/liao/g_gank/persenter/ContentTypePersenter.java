@@ -3,6 +3,7 @@ package com.example.liao.g_gank.persenter;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.Fragment;
 
 import com.example.liao.g_gank.contract.ContentTypeContrect;
 import com.example.liao.g_gank.ui.fragment.ContentFragment;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by liao on 2016/5/9.
  */
-public class ContentTypePersenter implements ContentTypeContrect.IContentTypePersenter {
+public class ContentTypePersenter extends Fragment implements ContentTypeContrect.IContentTypePersenter {
 
     ContentFragment contentFragment;
     private Cursor cursor;
@@ -56,4 +57,6 @@ public class ContentTypePersenter implements ContentTypeContrect.IContentTypePer
         contentFragment.showType(types);
 
     }
+
+
 }

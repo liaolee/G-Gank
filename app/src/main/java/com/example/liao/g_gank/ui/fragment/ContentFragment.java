@@ -38,8 +38,9 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
     private List<String> showTypes;
     private ContentTypePersenter contentTypePersenter;
     private ContentAdapter contentAdapter;
-    private List<Fragment> fragments;
+    private List<ContentTypeFragment> fragments;
     private String TAG = "ContentFragment";
+    private List<Fragment> mFragments;
 
     @Nullable
     @Override
@@ -128,8 +129,12 @@ public class ContentFragment extends BaseFragment implements ContentTypeContrect
 
             contentAdapter = new ContentAdapter(manager);
             viewPager.setAdapter(contentAdapter);
+
+
         }
-        contentAdapter.setData(fragments);
+
+        contentAdapter.setData(fragments,types);
+
         contentAdapter.notifyDataSetChanged();
 
         tabLayout.setupWithViewPager(viewPager);
